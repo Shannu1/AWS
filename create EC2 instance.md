@@ -253,4 +253,95 @@ The output parameter specifies that the output of the command should be in text.
 
 **Note**: The ID of the new instance has been stored in the INSTANCE environment variable.
 
+#### 6: Wait for the instance to be ready
+
+You can monitor the status of the instance by using the AWS Management Console or by querying the status by using the AWS CLI.
+
+1. Run the following command:
+
+			aws ec2 describe-instances --instance-ids $INSTANCE
+
+	All information related to the instance is displayed in JSON format. This information includes the instance status.
+
+	You can retrieve specific information by using the query parameter.
+
+2. Run the following command:
+
+
+			aws ec2 describe-instances --instance-ids $INSTANCE --query 					'Reservations[].Instances[].State.Name' --output text
+This command is the same as the command in the previous step, but rather than displaying all information about the instance, this command displays only the name of the instance state.
+
+		This command displays a status of *pending* or *running*.
+
+		Run this command again until it returns a status of *running*.
+
+ 
+
+#### 7: Test the web server
+
+You can now test that the web server is working. You can retrieve a URL to the instance through the AWS CLI.
+
+1. Run the following command:
+
+
+			aws ec2 describe-instances --instance-ids $INSTANCE --query 					Reservations[].Instances[].PublicDnsName --output text
+	This command returns the public IPv4 Domain Name System (DNS) name of the instance.
+
+2. Copy the DNS name that is displayed. It should be similar to the following: 
+
+	ec2-35-11-22-33.us-west-2.compute.amazonaws.com
+
+3. Paste the DNS name into a new web browser tab, and then press Enter.
+
+	A web page should be displayed, which demonstrates that the web server was successfully launched and configured.
+
+	You can also see the instance on the Amazon EC2 management console.
+
+4. Return to the web browser tab containing the Amazon EC2 management console. In the left navigation pane, choose **Instances**, and choose  refresh.
+
+The list should now include the **Web Server** instance that you launched by using the CLI command.
+
+As you see in this task, the AWS CLI makes it possible to programmatically access and control AWS services. You can place these commands in a script and run them as a standard process to deploy consistent, reliable infrastructure with minimal scope for human error.
+
+**Which method should you use?**
+
+* Launch from the management console when you quickly need to launch a one-off or temporary instance.
+
+* Launch by using a script when you need to automate the creation of an instance in a repeatable, reliable manner.
+
+* Launch by using CloudFormation when you want to launch related resources together.
+
+ 
+
+#### Optional challenge 1: Connect to an EC2 instance
+
+ This challenge is optional and is provided in case you have lab time remaining.
+
+In this challenge, you troubleshoot the security configuration of an instance called Misconfigured Web Server.
+
+1. The following are your tasks:
+
+   1. Try to connect to the Misconfigured Web Server instance by using EC2 Instance Connect.
+   2. Diagnose why this does not work, and fix the misconfiguration.
+   3. At the end of the lab, your instructor will ask you the following questions:
+   4. What was the problem?
+   5. What did you do to fix the problem?
+
+ 
+
+#### Optional challenge 2: Fix the web server installation
+
+In this challenge, you troubleshoot the web server installation on the Misconfigured Web Server instance:
+
+1. The following are your tasks:
+
+	1. Retrieve the public IPv4 DNS name of the Misconfigured Web Server instance.
+        2. In a new browser window, try to open the public IPv4 DNS name that you retrieved.
+        3. Diagnose why this does not work, and fix the misconfiguration.
+        4. At the end of the lab, your instructor will ask you the following questions:
+            1. What was the problem?
+            2. What did you do to fix the problem?
+
+ 
+
 
