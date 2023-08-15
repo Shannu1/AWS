@@ -1,4 +1,4 @@
-#Use Parameter Store to manage application settings
+# Use Parameter Store to manage application settings
 Parameter Store, a capability of Systems Manager, provides secure, hierarchical storage for configuration data management and secrets management. You can store data such as passwords, database strings, and license codes as parameter values. You can store values as plain text or encrypted data. You can then reference values by using the unique name that you specified when you created the parameter.
 
 In this task, you use Parameter Store to store a parameter that you use to activate a feature in an application.
