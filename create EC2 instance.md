@@ -192,8 +192,8 @@ This lab includes a web security group, which allows inbound HTTP requests.
 
 1. Run the following command:
 
-	SG=$(aws ec2 describe-security-groups --filters Name=group-name,Values=WebSecurityGroup --query SecurityGroups[].GroupId --output text)
-echo $SG
+		SG=$(aws ec2 describe-security-groups --filters Name=group-name,Values=WebSecurityGroup --query SecurityGroups[].GroupId --output text)
+		echo $SG
 
 The script runs the aws ec2 command with the describe-security-groups subcommand to retrieve the security group ID of the web security group.
 
