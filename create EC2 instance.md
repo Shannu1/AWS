@@ -153,6 +153,7 @@ One of the parameters required when launching an instance is the AMI, which popu
 You use AWS Systems Manager Parameter Store to retrieve the ID of the most recent Amazon Linux 2 AMI. AWS maintains a list of standard AMIs in Parameter Store, which makes it possible to automate this task.
 
 Run the following script in your EC2 Instance Connect session:
+
 		#Set the Region
 		AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
 		export AWS_DEFAULT_REGION=${AZ::-1}
@@ -181,7 +182,7 @@ You launch the new instance in the public subnet. When launching an instance, yo
 
 
 		SUBNET=$(aws ec2 describe-subnets --filters 'Name=tag:Name,Values=Public Subnet' --query Subnets[].SubnetId --output text)
-echo $SUBNET
+		echo $SUBNET
 
   This script runs the aws ec2 command with the describe-subnets subcommand to retrieve the subnet ID of the subnet named **Public Subnet**.
 
@@ -191,12 +192,10 @@ This lab includes a web security group, which allows inbound HTTP requests.
 
 1. Run the following command:
 
-
 	SG=$(aws ec2 describe-security-groups --filters Name=group-name,Values=WebSecurityGroup --query SecurityGroups[].GroupId --output text)
 echo $SG
 
-
-
+The script runs the aws ec2 command with the describe-security-groups subcommand to retrieve the security group ID of the web security group.
 
 
   
