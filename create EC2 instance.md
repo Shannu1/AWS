@@ -197,5 +197,60 @@ This lab includes a web security group, which allows inbound HTTP requests.
 
 The script runs the aws ec2 command with the describe-security-groups subcommand to retrieve the security group ID of the web security group.
 
+#### 4. Download a user data script
 
+In this step, you launch an instance that acts as a web server. To install and configure the web server, you provide a user data script that automatically runs when the instance launches.
+
+1. To download the user data script, run the following command:
+
+
+			wget https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-100-RESTRT-1-23732/171-lab-JAWS-create-ec2/s3/UserData.txt
+   
+2. To view the contents of the script, run the following command:
+
+
+			cat UserData.txt
+   
+The script does the following:
+* Installs a web server
+* Downloads a .zip file containing the web application
+* Installs the web application
   
+
+
+#### 5: Launch the instance
+
+You now have all the necessary information required to launch the web server instance.
+
+1. Run the following command:
+
+
+			INSTANCE=$(\
+			aws ec2 run-instances \
+			--image-id $AMI \
+			--subnet-id $SUBNET \
+			--security-group-ids $SG \
+			--user-data file:///home/ec2-user/UserData.txt \
+			--instance-type t3.micro \
+			--tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Web Server}]' \
+			--query 'Instances[*].InstanceId' \
+			--output text \
+			)
+			echo $INSTANCE
+   
+The run-instances command launches a new instance using these parameters:
+
+* **Image**: Uses the AMI value obtained earlier from Parameter Store
+* **Subnet**: Specifies the public subnet retrieved earlier and, by association, the VPC in which to launch the instance
+* **Security group**: Uses the web security group retrieved earlier, which permits HTTP access
+* **User data**: References the user data script that you downloaded, which installs the web application
+* **Instance type**: Specifies the type of instance to launch
+* **Tags**: Assigns a name tag with the value of Web Server
+
+The query parameter specifies that the command should return the instance ID once the instance is launched.
+
+The output parameter specifies that the output of the command should be in text. Other output options are json and table.
+
+**Note**: The ID of the new instance has been stored in the INSTANCE environment variable.
+
+
